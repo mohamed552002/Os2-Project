@@ -11,7 +11,6 @@ class ReadersWritersProblem {
         @Override
         public void run() {
             try {
-                //Acquire Section
                 readLock.acquire(); //wait(mutex)
                 readCount++;    
                 if (readCount == 1) {
@@ -19,12 +18,10 @@ class ReadersWritersProblem {
                 }
                 readLock.release(); //signal(mutex)
                 
-                //Reading section
-                System.out.println("Thread "+Thread.currentThread().getName() + " is READING");
-                Thread.sleep(1500);
-                System.out.println("Thread "+Thread.currentThread().getName() + " has FINISHED READING");
+                System.out.println("Thread " + Thread.currentThread().getName() + " is reading");
+                Thread.sleep(2000);
+                System.out.println("Thread " + Thread.currentThread().getName() + " has finished reading");
 
-                //Releasing section
                 readLock.acquire(); //wait(mutex)
                 readCount--;
                 if(readCount == 0) {
@@ -42,9 +39,9 @@ class ReadersWritersProblem {
         public void run() {
             try {
                 writeLock.acquire(); //wait(rw_mutex)
-                System.out.println("Thread "+Thread.currentThread().getName() + " is WRITING");
-                Thread.sleep(2500);
-                System.out.println("Thread "+Thread.currentThread().getName() + " has finished WRITING");
+                System.out.println("Thread " + Thread.currentThread().getName() + " is waiting");
+                Thread.sleep(2000);
+                System.out.println("Thread " + Thread.currentThread().getName() + " has finished waiting");
                 writeLock.release(); //signal(rw_mutex)
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
