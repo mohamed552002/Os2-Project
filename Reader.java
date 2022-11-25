@@ -10,7 +10,7 @@ class  Reader implements Runnable { // Writing Process
     //BufferedReader objReader;
     @Override
     public void run() {
-           try {
+        try {
             //Acquire Section
             readLock.acquire(); //wait(mutex)
             readCount++;    
