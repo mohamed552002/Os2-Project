@@ -10,11 +10,11 @@ public class ReadersWritersProblemTest {
         Thread t2 = new Thread(r);
         t2.setName("thread2");
         Thread t3 = new Thread(r);
-        t3.setName("thread2");
+        t3.setName("thread3");
         
         t1.start();
         t2.start();
-        //t3.start();
+        t3.start();
         
     }
 }
