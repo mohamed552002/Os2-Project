@@ -6,7 +6,6 @@ import java.io.*;
 
 class Writer implements Runnable { // Writing Process
 
-    BufferedWriter objWriter;
     @Override
     public void run() {
         try {
