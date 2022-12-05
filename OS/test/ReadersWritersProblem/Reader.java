@@ -6,11 +6,9 @@ import static ReadersWritersProblem.ReadersWritersProblem.file;
 import static ReadersWritersProblem.ReadersWritersProblem.path;
 import java.io.*;
 
-class Reader implements Runnable { // Writing Process
-    public synchronized void print(String n){
-        System.out.print(n + "\n");
-    }
+class  Reader implements Runnable { // Writing Process
     BufferedReader objReader;
+    @Override
     public void run() {
         try {
             //Acquire Section
@@ -29,19 +27,23 @@ class Reader implements Runnable { // Writing Process
                 return ;
             }
             try {
+                readLock.acquire();
                 FileInputStream fin =new FileInputStream(path);    
-                int i = 0;
-                String a = "";
-                while((i=fin.read())!=-1){           
-                    a += (char)i;
+                int i = 0;  
+                while((i=fin.read())!=-1){    
+                    System.out.print((char)i);    
                 }
-                System.out.println(a);
                 fin.close();
-    
+                readLock.release();
+//                objReader = new BufferedReader(new FileReader(path));
+//                while ((objReader.ready())) {
+//                    
+//                    System.out.println(objReader.readLine());
+//                }
             }catch (Exception e){
                 return;  
             }
-                       
+           
             System.out.println("Thread "+Thread.currentThread().getName() + " has finished reading");
             
             //Releasing section
