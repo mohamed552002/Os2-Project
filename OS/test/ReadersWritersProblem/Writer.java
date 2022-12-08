@@ -2,17 +2,18 @@ package ReadersWritersProblem;
 import static ReadersWritersProblem.ReadersWritersProblem.file;
 import static ReadersWritersProblem.ReadersWritersProblem.path;
 import static ReadersWritersProblem.ReadersWritersProblem.writeLock;
+import static ReadersWritersProblem.ReadersWritersProblem.writeCount;
 import java.io.*;
 
 class Writer implements Runnable { // Writing Process
 
-    BufferedWriter objWriter;
     @Override
     public void run() {
         try {
             writeLock.acquire(); //wait(rw_mutex)
+            writeCount++;
+            
             System.out.println("Thread "+Thread.currentThread().getName() + " is writing");
-                
             if(!file.exists()){
                 
                 try {
@@ -22,19 +23,20 @@ class Writer implements Runnable { // Writing Process
                 }
             }
             
-            try {
-                                   
-                FileOutputStream fos = new FileOutputStream(path, true);
-                fos.write("Spain\r\n".getBytes());
-                fos.close();
-
-            }catch (Exception e){
+            try {                
+                try (FileOutputStream fout =
+                        new FileOutputStream(path, true)) {
+                    fout.write("Mohamed\r\n".getBytes());
+                }
+            }catch (IOException e){
                  return;
             }
                 
             System.out.println("Thread "+Thread.currentThread().getName() + " has finished writing");
-            writeLock.release(); //signal(rw_mutex)
-                
+
+            writeCount--;
+            writeLock.release();
+
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }

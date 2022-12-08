@@ -1,58 +1,69 @@
 package ReadersWritersProblem;
 import static ReadersWritersProblem.ReadersWritersProblem.readCount;
+import static ReadersWritersProblem.ReadersWritersProblem.writeCount;
 import static ReadersWritersProblem.ReadersWritersProblem.readLock;
+import static ReadersWritersProblem.ReadersWritersProblem.readLock2;
 import static ReadersWritersProblem.ReadersWritersProblem.writeLock;
 import static ReadersWritersProblem.ReadersWritersProblem.file;
 import static ReadersWritersProblem.ReadersWritersProblem.path;
 import java.io.*;
 
-class  Reader implements Runnable { // Writing Process
-    BufferedReader objReader;
+class Reader implements Runnable {// Writing Process
+    
+    public void print(String n){
+        System.out.print(n + "\n");
+    }
+    
     @Override
     public void run() {
         try {
-            //Acquire Section
-            readLock.acquire(); //wait(mutex)
+            readLock.acquire();
+                
             readCount++;    
             if (readCount == 1) {
-                writeLock.acquire(); //wait(rw_mutex)
+                writeLock.acquire(); 
             }
             
-            readLock.release(); //signal(mutex)
+            if (writeCount == 1) {
+                writeLock.release(); 
+                readLock2.acquire(); 
+            }
+            readLock.release();
                 
-            //Reading section
-            System.out.println("Thread "+Thread.currentThread().getName() + " is reading");
+            System.out.println("Thread "+ 
+                    Thread.currentThread().getName() + " is reading");
             if(!file.exists()){
                 System.out.println("The path " + path + " is not exists");
                 return ;
             }
             try {
-                readLock.acquire();
-                FileInputStream fin =new FileInputStream(path);    
-                int i = 0;  
-                while((i=fin.read())!=-1){    
-                    System.out.print((char)i);    
+                try (FileInputStream fin = new FileInputStream(path)) {
+                    int i = 0;
+                    String a = "";
+                    while((i=fin.read())!=-1){
+                        a += (char)i;
+                    }
+                    System.out.println(a);
                 }
-                fin.close();
-                readLock.release();
-//                objReader = new BufferedReader(new FileReader(path));
-//                while ((objReader.ready())) {
-//                    
-//                    System.out.println(objReader.readLine());
-//                }
-            }catch (Exception e){
+                
+            }catch (IOException e){
                 return;  
             }
-           
-            System.out.println("Thread "+Thread.currentThread().getName() + " has finished reading");
+                       
+            System.out.println("Thread "+ 
+                    Thread.currentThread().getName() + " has finished reading");
             
-            //Releasing section
-            readLock.acquire(); //wait(mutex)
+            readLock.acquire(); 
             readCount--;
-                if(readCount == 0) {
-                    writeLock.release(); //signal(rw_mutex)
+            if(readCount == 0) {
+                    writeLock.release();
             }
-            readLock.release(); //signal(mutex)
+            
+            if (writeCount == 0) {
+                writeLock.release(); 
+                readLock2.acquire(); 
+            }
+            readLock.release();
             
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
