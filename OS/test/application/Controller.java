@@ -52,32 +52,28 @@ public class Controller implements Initializable {
 	private Scene scene;
 	private Parent root;
 	double x,y;
-	public void openAllClients(ActionEvent e) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("viewClients.fxml"));
+        	public void opencustomer(ActionEvent e) throws IOException {
+		 root = FXMLLoader.load(getClass().getResource("customer.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
-		root.setOnMousePressed(evt->{
-			x = evt.getSceneX();
-			y = evt.getSceneY();
-		});
-		root.setOnMouseDragged(evt->{
-			stage.setX(evt.getScreenX() - x);
-			stage.setY(evt.getScreenY() - y);
-			
-		});
 		stage.setScene(scene);
 		stage.show();
 		}
+        
 
-    @FXML
-    private void close(MouseEvent event) {
-    }
-       
+	public void openAllClients(ActionEvent e) throws IOException {
+		 root = FXMLLoader.load(getClass().getResource("viewClients.fxml"));
+		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+                                    stage.setScene(scene);
+                                    stage.show();
+                
+		}
+        
 
-    @Override
+       @Override
     public void initialize(URL url, ResourceBundle rb) {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
                 accid.setCellValueFactory(new PropertyValueFactory<>("ID"));
 		cnumber.setCellValueFactory(new PropertyValueFactory<>("cardNum"));
 		current_balance.setCellValueFactory(new PropertyValueFactory<>("currentBalance"));
@@ -90,6 +86,14 @@ public class Controller implements Initializable {
 		tableview.setItems(dataList);
                 ReadBalance r = new ReadBalance();
                 dataList.addAll(r.Read());
-    }
-	}
 
+    }
+
+    @FXML
+    private void close(MouseEvent event) {
+    }
+       
+
+
+	
+}
