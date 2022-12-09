@@ -1,6 +1,7 @@
 package application;
 	
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -14,7 +15,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("customer.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("viewClients.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

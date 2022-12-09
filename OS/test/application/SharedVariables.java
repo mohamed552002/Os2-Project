@@ -1,4 +1,6 @@
 package application;
+import Entities.Client;
+import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 public class SharedVariables {

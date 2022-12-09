@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
       <BorderPane prefHeight="500.0" prefWidth="800.0">
          <left>
@@ -168,17 +168,17 @@
                   </HBox>
                </top>
                <center>
-                  <TableView prefHeight="366.0" prefWidth="574.0" BorderPane.alignment="CENTER">
+                  <TableView fx:id="tableview" prefHeight="366.0" prefWidth="574.0" BorderPane.alignment="CENTER">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="AccountID" />
-                      <TableColumn prefWidth="86.0" text="Card Number" />
-                        <TableColumn prefWidth="42.0" text="CVC" />
-                        <TableColumn prefWidth="99.0" text="Current Balance" />
-                        <TableColumn prefWidth="83.0" text="SSN" />
-                        <TableColumn prefWidth="55.0" text="Fname" />
-                        <TableColumn minWidth="3.0" prefWidth="58.0" text="Lname" />
-                        <TableColumn minWidth="3.0" prefWidth="71.0" text="Phone" />
-                        <TableColumn minWidth="3.0" prefWidth="86.0" text="Address" />
+                      <TableColumn fx:id="accid" prefWidth="75.0" text="AccountID" />
+                      <TableColumn fx:id="cnumber" prefWidth="86.0" text="Card Number" />
+                        <TableColumn fx:id="ccv" prefWidth="42.0" text="CCV" />
+                        <TableColumn fx:id="current_balance" prefWidth="99.0" text="Current Balance" />
+                        <TableColumn fx:id="ssn" prefWidth="83.0" text="SSN" />
+                        <TableColumn fx:id="fname" prefWidth="55.0" text="Fname" />
+                        <TableColumn fx:id="lname" minWidth="3.0" prefWidth="58.0" text="Lname" />
+                        <TableColumn fx:id="phone" minWidth="3.0" prefWidth="71.0" text="Phone" />
+                        <TableColumn fx:id="address" minWidth="3.0" prefWidth="86.0" text="Address" />
                     </columns>
                   </TableView>
                </center>
