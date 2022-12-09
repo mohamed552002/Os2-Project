@@ -43,6 +43,7 @@ public class UpdateBalance {
         } catch (InterruptedException ex) {
             Logger.getLogger(UpdateBalance.class.getName())
                     .log(Level.SEVERE, null, ex);
-        }
+        
     }
+}
 }

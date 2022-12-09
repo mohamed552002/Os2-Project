@@ -1,4 +1,5 @@
 package application;
+import Entities.Client;
 import java.sql.*;
 import java.util.*;
 
@@ -76,16 +77,16 @@ public class DBContext {
         System.out.println("Operation done successfully");
     }
     
-    private String s = "";
-    public String returnAccount(String selection,ArrayList<String> args){
+    private ArrayList<Client> s = new ArrayList() ;
+    public  ArrayList returnAccount(){
         try {
             Class.forName("org.sqlite.JDBC");
             stmt=c.createStatement();
-            String query = "SELECT * FROM " + selection.toUpperCase();
+            String query = "SELECT * FROM CLIENT " ;
             ResultSet rs = stmt.executeQuery(query );
             while ( rs.next() ) {
-                for(int i =0; i<args.size();i++)
-                    s = s + rs.getString((args.get(i))) + "\n";           
+                    s .add(new  Client( rs.getInt("account_id"),rs.getString("first_name"), rs.getString("last_name"),rs.getString("phone"),rs.getString("address"),
+                            rs.getString("card_number"), rs.getString("CCV"), rs.getInt("current_balance"), rs.getString("SSN"))) ;           
             }
         } catch (ClassNotFoundException | SQLException e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );

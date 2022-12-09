@@ -1,4 +1,5 @@
 package BankingSystem;
+import application.ReadBalance;
 import java.util.*;
 
 public class test {
@@ -13,8 +14,7 @@ public class test {
 //        a.add("address");
 //        a.add("current_balance");
 //        a.add("status");
-//        DBContext.DBopen();
-        
+        DBContext.DBopen();
 //        DBContext.Tblcreation("CREATE TABLE client("
 //                + "client_id INTEGER PRIMARY KEY AUTOINCREMENT,"
 //                + " SSN CHAR(50) UNIQUE,"
