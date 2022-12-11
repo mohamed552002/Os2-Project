@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="customerdets" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CustomerController">
+<AnchorPane fx:id="customerdets" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CustomerController">
    <children>
       <BorderPane prefHeight="500.0" prefWidth="750.0">
          <left>
@@ -181,27 +181,27 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Label layoutX="113.0" layoutY="93.0" text="Current Balance :" textFill="#455a64">
-                                 <font>
-                                    <Font size="23.0" />
-                                 </font>
-                              </Label>
-                              <TextField editable="false" layoutX="309.0" layoutY="85.0" prefHeight="0.0" prefWidth="188.0">
+                              <TextField fx:id="deposit" layoutX="309.0" layoutY="85.0" prefHeight="0.0" prefWidth="188.0">
                                  <font>
                                     <Font size="23.0" />
                                  </font>
                               </TextField>
-                              <Label alignment="BASELINE_RIGHT" layoutX="114.0" layoutY="175.0" prefHeight="34.0" prefWidth="175.0" text="Enter Amount :" textFill="#455a64">
+                              <Label layoutX="113.0" layoutY="93.0" text="Deposit Amount:" textFill="#455a64">
                                  <font>
                                     <Font size="23.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="309.0" layoutY="167.0" prefHeight="0.0" prefWidth="188.0">
+                              <Label alignment="BASELINE_RIGHT" layoutX="101.0" layoutY="175.0" prefHeight="34.0" prefWidth="194.0" text="Enter Account ID:" textFill="#455a64">
+                                 <font>
+                                    <Font size="23.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="deposieID" layoutX="309.0" layoutY="167.0" prefHeight="0.0" prefWidth="188.0">
                                  <font>
                                     <Font size="23.0" />
                                  </font>
                               </TextField>
-                              <Button layoutX="235.0" layoutY="275.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="145.0" style="-fx-background-color: #455A64; -fx-text-fill: white; -fx-border-radius: 0;" text="Deposit">
+                              <Button layoutX="235.0" layoutY="275.0" mnemonicParsing="false" onAction="#runDeposite" prefHeight="50.0" prefWidth="145.0" style="-fx-background-color: #455A64; -fx-text-fill: white; -fx-border-radius: 0;" text="Deposit">
                                  <font>
                                     <Font size="23.0" />
                                  </font>
@@ -216,17 +216,17 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Label alignment="BASELINE_RIGHT" layoutX="94.0" layoutY="83.0" prefHeight="34.0" prefWidth="178.0" text="Current Balance :" textFill="#455a64">
+                              <Label alignment="BASELINE_RIGHT" layoutX="62.0" layoutY="83.0" prefHeight="34.0" prefWidth="210.0" text="Withdraw Amount:" textFill="#455a64">
                                  <font>
                                     <Font size="23.0" />
                                  </font>
                               </Label>
-                              <TextField editable="false" layoutX="296.0" layoutY="75.0" prefHeight="0.0" prefWidth="188.0">
+                              <TextField fx:id="withdraw" layoutX="296.0" layoutY="75.0" prefHeight="0.0" prefWidth="188.0">
                                  <font>
                                     <Font size="23.0" />
                                  </font>
                               </TextField>
-                              <Button layoutX="231.0" layoutY="269.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="145.0" style="-fx-background-color: #455A64; -fx-text-fill: white; -fx-border-radius: 0;" text="Withdraw">
+                              <Button layoutX="231.0" layoutY="269.0" mnemonicParsing="false" onAction="#runWithdraw" prefHeight="50.0" prefWidth="145.0" style="-fx-background-color: #455A64; -fx-text-fill: white; -fx-border-radius: 0;" text="Withdraw">
                                  <font>
                                     <Font size="23.0" />
                                  </font>
@@ -234,12 +234,12 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Label alignment="BASELINE_RIGHT" layoutX="97.0" layoutY="170.0" prefHeight="34.0" prefWidth="175.0" text="Enter Amount :" textFill="#455a64">
+                              <Label alignment="BASELINE_RIGHT" layoutX="71.0" layoutY="170.0" prefHeight="34.0" prefWidth="201.0" text="Enter Account ID:" textFill="#455a64">
                                  <font>
                                     <Font size="23.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="296.0" layoutY="162.0" prefHeight="0.0" prefWidth="188.0">
+                              <TextField fx:id="withdrawID" layoutX="296.0" layoutY="162.0" prefHeight="0.0" prefWidth="188.0">
                                  <font>
                                     <Font size="23.0" />
                                  </font>

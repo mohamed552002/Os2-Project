@@ -77,8 +77,8 @@ public class DBContext {
         System.out.println("Operation done successfully");
     }
     
-    private ArrayList<Client> s = new ArrayList() ;
-    public  ArrayList returnAccount(){
+    private static ArrayList<Client> s = new ArrayList() ;
+    public static ArrayList returnAccount(){
         try {
             Class.forName("org.sqlite.JDBC");
             stmt=c.createStatement();
@@ -95,12 +95,12 @@ public class DBContext {
         return s;
     }
     
-    private String r;
-    public String returnBalance(String selection, int id){
+    private static String r;
+    public static String returnBalance(String selection, int id){
         try {
             Class.forName("org.sqlite.JDBC");
             stmt=c.createStatement();
-            String query = "SELECT * FROM " + selection.toUpperCase() + " WHERE client_id = " + id;
+            String query = "SELECT * FROM " + selection.toUpperCase() + " WHERE account_id = " + id;
             ResultSet rs = stmt.executeQuery(query);
             r = rs.getString("current_balance");
         } catch (ClassNotFoundException | SQLException e ) {
