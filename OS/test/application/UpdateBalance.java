@@ -10,11 +10,11 @@ public class UpdateBalance {
         return Integer.parseInt(text);
     }
     
-    public static void Withdraw(TextField withdraw, TextField id) {
+    public static boolean Withdraw(TextField withdraw, int id) {
 //        try {
 //            writeLock.acquire();
             int w = getIntFromTextField(withdraw);
-            int ID = getIntFromTextField(id);
+            int ID = id;
             DBContext.DBopen();
             String currentBalance;
             int newBalance = 0;
@@ -25,22 +25,24 @@ public class UpdateBalance {
                 DBContext.update("UPDATE client SET current_balance = " +
                     newBalance + " WHERE account_id = " + ID);
             }
-            else
+            else{
                 System.out.println("There is no enough money");
-            
+                return false;
+            }
             DBContext.DBclose();
 //            writeLock.release();
 //        } catch (InterruptedException ex) {
 //            Logger.getLogger(UpdateBalance.class.getName())
 //                    .log(Level.SEVERE, null, ex);
 //        }
+        return true;
     }
     
-    public static void Deposit(TextField deposit, TextField id){
+    public static void Deposit(TextField deposit, int id){
 //        try {
 //            writeLock.acquire();
             int d = getIntFromTextField(deposit);
-            int ID = getIntFromTextField(id);
+            int ID = id;
             DBContext.DBopen();
             String currentBalance;
             currentBalance = DBContext.returnBalance("client", ID);
