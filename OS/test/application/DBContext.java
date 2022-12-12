@@ -108,7 +108,26 @@ public class DBContext {
             System.exit(0);
         } 
         return r;
-    }        
+    }
+    private static String st;
+    public static String returnStatus(int id){
+        try {
+            Class.forName("org.sqlite.JDBC");
+            stmt=c.createStatement();
+            String query = "SELECT * FROM Client WHERE account_id = " + id;
+            ResultSet rs = stmt.executeQuery(query);
+            st = rs.getString("status");
+        } catch (ClassNotFoundException | SQLException e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        } 
+        return st;
+    } 
+    public static void updateStatus(int id, String state){
+            DBContext.DBopen();
+            DBContext.update("UPDATE client SET status = '"+state+"' WHERE account_id = " + id);
+            DBContext.DBclose();
+        }
     
     public static void update(String query){
         try {
