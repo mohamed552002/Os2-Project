@@ -98,9 +98,9 @@
             </HBox>
          </top>
          <center>
-            <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <BorderPane fx:id="ContentOfPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <top>
-                  <HBox prefHeight="67.0" prefWidth="750.0" style="-fx-background-color: #37474F;" BorderPane.alignment="CENTER">
+                  <HBox fx:id="paneHeader" prefHeight="67.0" prefWidth="750.0" style="-fx-background-color: #37474F;" BorderPane.alignment="CENTER">
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
