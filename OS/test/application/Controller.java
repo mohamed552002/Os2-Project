@@ -1,6 +1,14 @@
 package application;
 import Entities.Client;
 import java.util.ArrayList;
+import  application.SharedVariables;
+import static application.SharedVariables.decrementReadCount;
+import static application.SharedVariables.incrementReadCount;
+import static application.SharedVariables.returnReadCount;
+import static application.SharedVariables.signalReader;
+import static application.SharedVariables.waitReader;
+import static application.SharedVariables.signalWriter;
+import static application.SharedVariables.waitWriter;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -32,9 +40,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
-//import static application.SharedVariables.readLock;
-//import static application.SharedVariables.readCount;
-//import static application.SharedVariables.writeLock;
 
 public class Controller implements Initializable {
     @FXML
@@ -76,19 +81,18 @@ public class Controller implements Initializable {
 	private Scene scene;
 	private Parent root;
 	double x,y;
-        public void opencustomer(ActionEvent e) throws IOException, InterruptedException  {
-//            writeLock.acquire();
-		root = FXMLLoader.load(getClass().getResource("customer.fxml"));
+        	public void opencustomer(ActionEvent e) throws IOException {
+
+		 root = FXMLLoader.load(getClass().getResource("customer.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
-//            writeLock.release();
-	}
+		}
         
 
-	public void openAllClients(ActionEvent e) throws IOException {
-		root = FXMLLoader.load(getClass().getResource("viewClients.fxml"));
+	public void openAllClients(ActionEvent e) throws IOException, InterruptedException {
+		 root = FXMLLoader.load(getClass().getResource("viewClients.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
                 //move around
@@ -103,8 +107,7 @@ public class Controller implements Initializable {
 			});
                 stage.setScene(scene);
                 stage.show();
-	}
-        
+		}
         public void openNewClient(ActionEvent e) throws IOException {
 		 root = FXMLLoader.load(getClass().getResource("newClient.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -121,9 +124,10 @@ public class Controller implements Initializable {
 			});
                 stage.setScene(scene);
                 stage.show();
-	}
-        
+                
+		}
         public void openHome(ActionEvent e) throws IOException{
+            signalWriter();
                 root = FXMLLoader.load(getClass().getResource("home.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
@@ -164,6 +168,21 @@ public void clickItem(MouseEvent event) throws IOException
 {
     if (event.getClickCount() == 2) //Checking double click
     {
+                                        waitReader();
+            decrementReadCount();
+            if(returnReadCount() == 0)
+                signalWriter();
+             signalReader();
+            waitWriter();
+            if(returnReadCount() >= 1){
+                		 root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+            }
+            else{
+
                 int clientId = tableview.getSelectionModel().getSelectedItem().getID();
                 String fullname = tableview.getSelectionModel().getSelectedItem().getFName()+ " "+ tableview.getSelectionModel().getSelectedItem().getLName();
                 String cardNum = tableview.getSelectionModel().getSelectedItem().getCardNum();
@@ -188,8 +207,10 @@ public void clickItem(MouseEvent event) throws IOException
 				stage.setY(evt.getScreenY() - y);
 				
 			});
+            
                 stage.setScene(scene);
                 stage.show();
+            }
     }
 }
         
@@ -224,6 +245,3 @@ public void clickItem(MouseEvent event) throws IOException
                 x.clear();
     }
     }
-       
-	
-

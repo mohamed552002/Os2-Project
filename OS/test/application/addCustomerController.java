@@ -1,3 +1,4 @@
+
 package application;
 
 import Entities.Client;
@@ -27,9 +28,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-//import static application.SharedVariables.readLock;
-//import static application.SharedVariables.readCount;
-//import static application.SharedVariables.writeLock;
 
 public class addCustomerController implements Initializable{
         
@@ -57,7 +55,6 @@ public class addCustomerController implements Initializable{
 	private Scene scene;
 	private Parent root;
 	double x,y;
-        
 	public void opencustomer(ActionEvent e) throws IOException {
             root = FXMLLoader.load(getClass().getResource("customer.fxml"));
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -160,4 +157,3 @@ public class addCustomerController implements Initializable{
       
     }
 }
-

@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+ */
 package application;
 
 import java.awt.Image;
@@ -5,6 +9,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import static application.SharedVariables.incrementReadCount;
+import static application.SharedVariables.decrementReadCount;
+import static application.SharedVariables.returnReadCount;
+import static application.SharedVariables.signalReader;
+import static application.SharedVariables.signalWriter;
+import static application.SharedVariables.waitReader;
+import static application.SharedVariables.waitWriter;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -26,14 +37,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import static application.SharedVariables.incrementReadCount;
-import static application.SharedVariables.decrementReadCount;
-import static application.SharedVariables.returnReadCount;
-import static application.SharedVariables.waitReader;
-import static application.SharedVariables.signalReader;
-import static application.SharedVariables.waitWriter;
-import static application.SharedVariables.signalWriter;
 
+/**
+ * FXML Controller class
+ *
+ * @author NH
+ */
 public class HomeController implements Initializable {
     private Stage stage;
     private Scene scene;
@@ -43,13 +52,7 @@ public class HomeController implements Initializable {
     private GridPane ContentOfPane;
     @FXML
     private BarChart<String, Integer> barChart;
-    public void close(ActionEvent e) throws IOException {
-           waitReader();   
-           decrementReadCount();    
-           if (returnReadCount() == 0) {
-                signalWriter(); 
-           }
-           signalReader();
+    public void close(ActionEvent e) {
             Timeline timeline = new Timeline();
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             KeyFrame key = new KeyFrame(Duration.millis(250),
@@ -57,12 +60,9 @@ public class HomeController implements Initializable {
             timeline.getKeyFrames().add(key);   
             timeline.setOnFinished((ae) -> Platform.exit()); 
             timeline.play();
-            signalWriter();
 	}
-    
-        public void openNewClient(ActionEvent e) throws IOException, InterruptedException {
-            waitWriter();
-		root = FXMLLoader.load(getClass().getResource("newClient.fxml"));
+            public void openNewClient(ActionEvent e) throws IOException, InterruptedException {
+		 root = FXMLLoader.load(getClass().getResource("newClient.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
                  //move around
@@ -77,33 +77,40 @@ public class HomeController implements Initializable {
 			});
                 stage.setScene(scene);
                 stage.show();
-	}
-        
-        @FXML 
+		}
+            @FXML
+                    	public void Loading(ActionEvent e) throws IOException {
+
+		 root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
+		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+		}
+            @FXML 
         private void client(ActionEvent e) throws IOException, InterruptedException{
-           waitReader();   
-           incrementReadCount();    
-           if (returnReadCount() == 1) {
-                waitWriter(); 
-           }
-           signalReader();
-           
+            waitReader();
+            incrementReadCount();
+            if(returnReadCount() == 1){
+                waitWriter();
+            }
+            signalReader();
+            
             root = FXMLLoader.load(getClass().getResource("viewClients.fxml"));
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             scene = new Scene(root);
              //move around
-            root.setOnMousePressed(evt->{
-                x = evt.getSceneX();
-                y = evt.getSceneY();
-            });
-            
-            root.setOnMouseDragged(evt->{
-		stage.setX(evt.getScreenX() - x);
-		stage.setY(evt.getScreenY() - y);
-            });
-           // System.out.println(readCount);
-            stage.setScene(scene);
-            stage.show();
+			root.setOnMousePressed(evt->{
+				x = evt.getSceneX();
+				y = evt.getSceneY();
+			});
+			root.setOnMouseDragged(evt->{
+				stage.setX(evt.getScreenX() - x);
+				stage.setY(evt.getScreenY() - y);
+				
+			});
+                stage.setScene(scene);
+                stage.show();
 
         }
 

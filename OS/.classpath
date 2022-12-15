@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="readerwritersolution/|BankingSystem/|application/" kind="src" path="test"/>
+	<classpathentry kind="src" path="test/application"/>
+	<classpathentry kind="src" path="test/BankingSystem"/>
+	<classpathentry kind="src" path="test/readerwritersolution"/>
+	<classpathentry kind="lib" path="javafx-swt.jar"/>
+	<classpathentry kind="lib" path="javafx.base.jar"/>
+	<classpathentry kind="lib" path="javafx.controls.jar"/>
+	<classpathentry kind="lib" path="javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="javafx.media.jar"/>
+	<classpathentry kind="lib" path="javafx.swing.jar"/>
+	<classpathentry kind="lib" path="javafx.web.jar"/>
+	<classpathentry kind="lib" path="sqlite-jdbc-3.36.0.3.jar"/>
+	<classpathentry kind="output" path="build/test/classes"/>
+</classpath>

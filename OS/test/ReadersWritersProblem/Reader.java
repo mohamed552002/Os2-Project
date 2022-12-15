@@ -1,8 +1,6 @@
 package ReadersWritersProblem;
 import static ReadersWritersProblem.ReadersWritersProblem.readCount;
-import static ReadersWritersProblem.ReadersWritersProblem.writeCount;
 import static ReadersWritersProblem.ReadersWritersProblem.readLock;
-import static ReadersWritersProblem.ReadersWritersProblem.readLock2;
 import static ReadersWritersProblem.ReadersWritersProblem.writeLock;
 import static ReadersWritersProblem.ReadersWritersProblem.file;
 import static ReadersWritersProblem.ReadersWritersProblem.path;
@@ -22,11 +20,6 @@ class Reader implements Runnable {// Writing Process
             readCount++;    
             if (readCount == 1) {
                 writeLock.acquire(); 
-            }
-            
-            if (writeCount == 1) {
-                writeLock.release(); 
-                readLock2.acquire(); 
             }
             readLock.release();
                 
@@ -57,11 +50,6 @@ class Reader implements Runnable {// Writing Process
             readCount--;
             if(readCount == 0) {
                     writeLock.release();
-            }
-            
-            if (writeCount == 0) {
-                writeLock.release(); 
-                readLock2.acquire(); 
             }
             readLock.release();
             

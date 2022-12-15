@@ -2,8 +2,6 @@ package application;
 
 import Entities.Client;
 import application.Controller;
-import static application.SharedVariables.signalWriter;
-import static application.SharedVariables.waitWriter;
 import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
@@ -33,9 +31,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-//import static application.SharedVariables.readLock;
-//import static application.SharedVariables.readCount;
-//import static application.SharedVariables.writeLock;
 
 public class CustomerController implements Initializable{
         @FXML
@@ -58,13 +53,7 @@ public class CustomerController implements Initializable{
 	private Scene scene;
 	private Parent root;
 	double x,y;
-	public void opencustomer(ActionEvent e) throws IOException, InterruptedException {
-//            readLock.acquire();   
-//            readCount++;    
-//            if (readCount == 1) {
-//                writeLock.acquire(); 
-//            }
-//            readLock.release();
+	public void opencustomer(ActionEvent e) throws IOException {
             root = FXMLLoader.load(getClass().getResource("customer.fxml"));
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -80,12 +69,6 @@ public class CustomerController implements Initializable{
 			});
                 stage.setScene(scene);
                 stage.show();
-//            readLock.acquire(); 
-//            readCount--;
-//            if(readCount == 0) {
-//                    writeLock.release();
-//            }
-//            readLock.release();
 	}
         @FXML 
         private void client(ActionEvent e) throws IOException{
@@ -178,8 +161,7 @@ public class CustomerController implements Initializable{
     
     int ClientID;
     
-        public void setClientInfo(int id, String name,String cn, String cvc,double cb,String ssn,String Pn, String Addr) throws IOException{
-         waitWriter();
+        public void setClientInfo(int id, String name,String cn, String cvc,double cb,String ssn,String Pn, String Addr){
          accID.setText(""+id);
          cardNum.setText(cn);
          CVC.setText(cvc);
@@ -202,7 +184,7 @@ public class CustomerController implements Initializable{
                 changeStatusBtn.setText("");
                 changeStatusBtn.setText("Activate Account");
             }
-         signalWriter();
+         
         }
         @FXML
         public void runDeposite(){

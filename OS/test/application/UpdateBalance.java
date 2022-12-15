@@ -1,5 +1,4 @@
 package application;
-import static application.SharedVariables.writeLock;
 import javafx.scene.control.TextField;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +26,7 @@ public class UpdateBalance {
             }
             else{
                 System.out.println("There is no enough money");
+                            DBContext.DBclose();
                 return false;
             }
             DBContext.DBclose();
