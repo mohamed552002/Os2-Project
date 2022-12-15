@@ -18,66 +18,6 @@
 <AnchorPane fx:id="customerdets" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CustomerController">
    <children>
       <BorderPane prefHeight="500.0" prefWidth="750.0">
-         <left>
-            <VBox prefHeight="433.0" prefWidth="144.0" style="-fx-background-color: #455A64;" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="client" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="10.0" mnemonicParsing="false" onAction="#client" prefHeight="47.0" prefWidth="170.0" stylesheets="@../css/style.css" text="  All Clients">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/icons8_user_groups_64px_1.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </Button>
-                  <Button alignment="BASELINE_LEFT" layoutX="10.0" layoutY="57.0" mnemonicParsing="false" onAction="#openNewClient" prefHeight="47.0" prefWidth="189.0" stylesheets="@../css/style.css" text="  New Client">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/icons8_Document_64px_2.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </Button>
-                  <Button alignment="BASELINE_LEFT" layoutX="10.0" layoutY="339.0" mnemonicParsing="false" onAction="#close" prefHeight="47.0" prefWidth="181.0" stylesheets="@../css/style.css" text="  Exit">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/icons8_exit_sign_50px_1.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </Button>
-               </children>
-            </VBox>
-         </left>
          <top>
             <HBox prefHeight="67.0" prefWidth="750.0" style="-fx-background-color: #37474F;" BorderPane.alignment="CENTER">
                <children>
@@ -97,7 +37,7 @@
                </children></HBox>
          </top>
          <center>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <TabPane fx:id="ContentOfPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
                 <Tab text=" User Informations ">
                   <content>
@@ -255,6 +195,81 @@
               </tabs>
             </TabPane>
          </center>
+         <left>
+            <VBox prefHeight="433.0" prefWidth="144.0" style="-fx-background-color: #455A64;" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="home" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#openHome" prefHeight="47.0" prefWidth="170.0" stylesheets="@../css/style.css" text="  Home">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/icons8_home_30px_2.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="client2" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="10.0" mnemonicParsing="false" onAction="#client" prefHeight="47.0" prefWidth="170.0" stylesheets="@../css/style.css" text="  All Clients">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/icons8_user_groups_64px_1.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" layoutX="10.0" layoutY="57.0" mnemonicParsing="false" onAction="#openNewClient" prefHeight="47.0" prefWidth="189.0" stylesheets="@../css/style.css" text="  New Client">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/icons8_Document_64px_2.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" layoutX="10.0" layoutY="339.0" mnemonicParsing="false" onAction="#close" prefHeight="47.0" prefWidth="181.0" stylesheets="@../css/style.css" text="  Exit">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/icons8_exit_sign_50px_1.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </left>
       </BorderPane>
       <BorderPane prefHeight="72.0" prefWidth="69.0" />
    </children>
