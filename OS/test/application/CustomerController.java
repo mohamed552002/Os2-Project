@@ -2,28 +2,55 @@ package application;
 
 import Entities.Client;
 import application.Controller;
+import static application.SharedVariables.signalWriter;
+import static application.SharedVariables.waitWriter;
 import java.awt.Color;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
+//import static application.SharedVariables.readLock;
+//import static application.SharedVariables.readCount;
+//import static application.SharedVariables.writeLock;
 
-public class CustomerController  {
+public class CustomerController implements Initializable{
+        @FXML
+        private TabPane ContentOfPane;
+    
 
         @FXML
 	public void close(ActionEvent e) {
-		Platform.exit();
+            Timeline timeline = new Timeline();
+            stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+            KeyFrame key = new KeyFrame(Duration.millis(250),
+                           new KeyValue (stage.getScene().getRoot().opacityProperty(), 0)); 
+            timeline.getKeyFrames().add(key);   
+            timeline.setOnFinished((ae) -> Platform.exit()); 
+            timeline.play();
 	}
         @FXML
         private AnchorPane customerdets;
@@ -31,7 +58,13 @@ public class CustomerController  {
 	private Scene scene;
 	private Parent root;
 	double x,y;
-	public void opencustomer(ActionEvent e) throws IOException {
+	public void opencustomer(ActionEvent e) throws IOException, InterruptedException {
+//            readLock.acquire();   
+//            readCount++;    
+//            if (readCount == 1) {
+//                writeLock.acquire(); 
+//            }
+//            readLock.release();
             root = FXMLLoader.load(getClass().getResource("customer.fxml"));
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -47,6 +80,12 @@ public class CustomerController  {
 			});
                 stage.setScene(scene);
                 stage.show();
+//            readLock.acquire(); 
+//            readCount--;
+//            if(readCount == 0) {
+//                    writeLock.release();
+//            }
+//            readLock.release();
 	}
         @FXML 
         private void client(ActionEvent e) throws IOException{
@@ -84,7 +123,26 @@ public class CustomerController  {
                 stage.setScene(scene);
                 stage.show();
 		}
-    
+        public void openHome(ActionEvent e) throws IOException{
+                root = FXMLLoader.load(getClass().getResource("home.fxml"));
+		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+                //move around
+			root.setOnMousePressed(evt->{
+				x = evt.getSceneX();
+				y = evt.getSceneY();
+			});
+			root.setOnMouseDragged(evt->{
+				stage.setX(evt.getScreenX() - x);
+				stage.setY(evt.getScreenY() - y);
+				
+			});
+                stage.setScene(scene);
+                stage.show();
+		
+        }
+    @FXML
+    private ImageView loadingIcon;
     @FXML
     private TextField Address;
     @FXML
@@ -120,7 +178,8 @@ public class CustomerController  {
     
     int ClientID;
     
-        public void setClientInfo(int id, String name,String cn, String cvc,double cb,String ssn,String Pn, String Addr){
+        public void setClientInfo(int id, String name,String cn, String cvc,double cb,String ssn,String Pn, String Addr) throws IOException{
+         waitWriter();
          accID.setText(""+id);
          cardNum.setText(cn);
          CVC.setText(cvc);
@@ -143,7 +202,7 @@ public class CustomerController  {
                 changeStatusBtn.setText("");
                 changeStatusBtn.setText("Activate Account");
             }
-         
+         signalWriter();
         }
         @FXML
         public void runDeposite(){
@@ -216,5 +275,25 @@ public class CustomerController  {
                 changeStatusBtn.setText("Deactivate Account");
             }
             }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+            FadeTransition fade = new FadeTransition();
+            fade.setNode(ContentOfPane);
+            fade.setDuration(Duration.millis(250));
+            fade.setInterpolator(Interpolator.LINEAR);
+            fade.setFromValue(0);
+            fade.setToValue(1);
+            fade.play();
+            
+            // rotate
+                RotateTransition rotate = new RotateTransition();
+                rotate.setNode(loadingIcon);
+                rotate.setDuration(Duration.millis(2500));
+                rotate.setCycleCount(TranslateTransition.INDEFINITE);
+                rotate.setInterpolator(Interpolator.LINEAR);
+                rotate.setByAngle(360);
+                rotate.play();
+    }
 }
 

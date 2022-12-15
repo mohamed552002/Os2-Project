@@ -20,11 +20,27 @@ import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.util.Duration;
+
+//import static application.SharedVariables.readLock;
+//import static application.SharedVariables.readCount;
+//import static application.SharedVariables.writeLock;
 
 public class Controller implements Initializable {
+    @FXML
+    private HBox paneHeader;
+    @FXML
+    private BorderPane ContentOfPane;
     @FXML
     private TableView<Client> tableview;
     @FXML
@@ -48,23 +64,31 @@ public class Controller implements Initializable {
    ObservableList<Client> dataList = FXCollections.observableArrayList();
     @FXML
 	public void close(ActionEvent e) {
-		Platform.exit();
+            Timeline timeline = new Timeline();
+            stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+            KeyFrame key = new KeyFrame(Duration.millis(250),
+                           new KeyValue (stage.getScene().getRoot().opacityProperty(), 0)); 
+            timeline.getKeyFrames().add(key);   
+            timeline.setOnFinished((ae) -> Platform.exit()); 
+            timeline.play();
 	}
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
 	double x,y;
-        	public void opencustomer(ActionEvent e) throws IOException {
-		 root = FXMLLoader.load(getClass().getResource("customer.fxml"));
+        public void opencustomer(ActionEvent e) throws IOException, InterruptedException  {
+//            writeLock.acquire();
+		root = FXMLLoader.load(getClass().getResource("customer.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
-		}
+//            writeLock.release();
+	}
         
 
 	public void openAllClients(ActionEvent e) throws IOException {
-		 root = FXMLLoader.load(getClass().getResource("viewClients.fxml"));
+		root = FXMLLoader.load(getClass().getResource("viewClients.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
                 //move around
@@ -79,7 +103,8 @@ public class Controller implements Initializable {
 			});
                 stage.setScene(scene);
                 stage.show();
-		}
+	}
+        
         public void openNewClient(ActionEvent e) throws IOException {
 		 root = FXMLLoader.load(getClass().getResource("newClient.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -96,7 +121,26 @@ public class Controller implements Initializable {
 			});
                 stage.setScene(scene);
                 stage.show();
-		}
+	}
+        
+        public void openHome(ActionEvent e) throws IOException{
+                root = FXMLLoader.load(getClass().getResource("home.fxml"));
+		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+                //move around
+			root.setOnMousePressed(evt->{
+				x = evt.getSceneX();
+				y = evt.getSceneY();
+			});
+			root.setOnMouseDragged(evt->{
+				stage.setX(evt.getScreenX() - x);
+				stage.setY(evt.getScreenY() - y);
+				
+			});
+                stage.setScene(scene);
+                stage.show();
+		
+        }
      
     String cardNumFilter;
     @FXML
@@ -153,6 +197,15 @@ public void clickItem(MouseEvent event) throws IOException
        @Override
     public void initialize(URL url, ResourceBundle rb) {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                // fade
+                FadeTransition fade = new FadeTransition();
+                fade.setNode(ContentOfPane);
+                fade.setDuration(Duration.millis(250));
+                //fade.setCycleCount(TranslateTransition.INDEFINITE);
+                fade.setInterpolator(Interpolator.LINEAR);
+                fade.setFromValue(0);
+                fade.setToValue(1);
+                fade.play();
                 
                 accid.setCellValueFactory(new PropertyValueFactory<>("ID"));
 		cnumber.setCellValueFactory(new PropertyValueFactory<>("cardNum"));
@@ -164,10 +217,12 @@ public void clickItem(MouseEvent event) throws IOException
 		phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
 		address.setCellValueFactory(new PropertyValueFactory<>("address"));
                 ReadBalance r = new ReadBalance();
-                dataList.removeAll(dataList);
-                dataList.addAll(r.Read());
+                ArrayList<Client> x = new ArrayList();
+                x = r.Read();
+                dataList.addAll(x);
                 tableview.setItems(dataList);
-                }
+                x.clear();
+    }
     }
        
 	
