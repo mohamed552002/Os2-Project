@@ -43,6 +43,32 @@ public  class SharedVariables {
         FileOutputStream fout = new FileOutputStream("SharedVariables.txt", false); 
         fout.write(string.getBytes());  
     }
+        public static void incrementWriteCount() throws IOException{
+        Path filename = Path.of("SharedVariables.txt");
+        String s = Files.readString(filename);
+        String readCount = String.valueOf(s.charAt(0));
+        String readLock = String.valueOf(s.charAt(1));
+        String writeLock = String.valueOf(s.charAt(2));
+        int i = Integer.parseInt(readLock);
+        i++;
+        String string = readCount+ i + writeLock;
+
+        FileOutputStream fout = new FileOutputStream("SharedVariables.txt", false); 
+        fout.write(string.getBytes());  
+    }
+                public static void decrementWriteCount() throws IOException{
+        Path filename = Path.of("SharedVariables.txt");
+        String s = Files.readString(filename);
+        String readCount = String.valueOf(s.charAt(0));
+        String readLock = String.valueOf(s.charAt(1));
+        String writeLock = String.valueOf(s.charAt(2));
+        int i = Integer.parseInt(readLock);
+        i--;
+        String string = readCount+ i + writeLock;
+
+        FileOutputStream fout = new FileOutputStream("SharedVariables.txt", false); 
+        fout.write(string.getBytes());  
+    }
     
     public static void decrementReadCount() throws IOException{
         Path filename = Path.of("SharedVariables.txt");
@@ -62,6 +88,13 @@ public  class SharedVariables {
         Path filename = Path.of("SharedVariables.txt");
         String s = Files.readString(filename);
         String read = String.valueOf(s.charAt(0));
+        int readCount = Integer.parseInt(read);
+        return readCount;
+    }
+        public static int returnWriteCount() throws IOException{
+        Path filename = Path.of("SharedVariables.txt");
+        String s = Files.readString(filename);
+        String read = String.valueOf(s.charAt(1));
         int readCount = Integer.parseInt(read);
         return readCount;
     }
@@ -102,7 +135,9 @@ public  class SharedVariables {
         String readLock = String.valueOf(s.charAt(1));
         String writeLock = String.valueOf(s.charAt(2));
         int i = Integer.parseInt(writeLock);
-        while(i <= 0);
+        if(i <= 0){
+        
+        };
         i--;
         String string = readCount + readLock + i;
         FileOutputStream fout = new FileOutputStream("SharedVariables.txt", false); 

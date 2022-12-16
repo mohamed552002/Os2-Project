@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import static application.SharedVariables.incrementReadCount;
 import static application.SharedVariables.decrementReadCount;
 import static application.SharedVariables.returnReadCount;
+import static application.SharedVariables.returnWriteCount;
 import static application.SharedVariables.signalReader;
 import static application.SharedVariables.signalWriter;
 import static application.SharedVariables.waitReader;
@@ -34,6 +35,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Pagination;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -79,22 +81,22 @@ public class HomeController implements Initializable {
                 stage.show();
 		}
             @FXML
-                    	public void Loading(ActionEvent e) throws IOException {
+                    	public void Loading(MouseEvent e) throws IOException {
 
 		 root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
-		stage.show();
+		stage.showAndWait();
 		}
             @FXML 
-        private void client(ActionEvent e) throws IOException, InterruptedException{
-            waitReader();
-            incrementReadCount();
-            if(returnReadCount() == 1){
-                waitWriter();
+        private void client(MouseEvent e) throws IOException, InterruptedException{
+            if(returnWriteCount() != 0){
+                    Loading(e);
             }
-            signalReader();
+
+
+            incrementReadCount();
             
             root = FXMLLoader.load(getClass().getResource("viewClients.fxml"));
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -136,6 +138,7 @@ public class HomeController implements Initializable {
             series2.getData().add(new XYChart.Data("Yesterday",198));
             series2.getData().add(new XYChart.Data("Today",259));
             barChart.getData().addAll(series1,series2);
+               
      }
     
 }

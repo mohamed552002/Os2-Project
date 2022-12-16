@@ -41,7 +41,7 @@
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Button fx:id="client" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="10.0" mnemonicParsing="false" onAction="#client" prefHeight="47.0" prefWidth="170.0" stylesheets="@../css/style.css" text="  All Clients">
+                  <Button fx:id="client" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#client" prefHeight="47.0" prefWidth="170.0" stylesheets="@../css/style.css" text="  All Clients">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

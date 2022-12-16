@@ -2,6 +2,7 @@ package application;
 
 import Entities.Client;
 import application.Controller;
+import static application.SharedVariables.decrementWriteCount;
 import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
@@ -38,7 +39,8 @@ public class CustomerController implements Initializable{
     
 
         @FXML
-	public void close(ActionEvent e) {
+	public void close(ActionEvent e) throws IOException {
+            decrementWriteCount();
             Timeline timeline = new Timeline();
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             KeyFrame key = new KeyFrame(Duration.millis(250),
@@ -47,6 +49,15 @@ public class CustomerController implements Initializable{
             timeline.setOnFinished((ae) -> Platform.exit()); 
             timeline.play();
 	}
+                @FXML
+        	public  void Loading(MouseEvent e) throws IOException {
+
+		 root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
+		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+		}
         @FXML
         private AnchorPane customerdets;
 	private Stage stage;
@@ -158,6 +169,8 @@ public class CustomerController implements Initializable{
     private TextField currentStatus;
     @FXML
     private Button changeStatusBtn;
+    @FXML
+            Button client2;
     
     int ClientID;
     

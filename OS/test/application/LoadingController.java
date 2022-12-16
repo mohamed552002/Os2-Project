@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -25,7 +26,7 @@ public class LoadingController {
 	private Parent root;
 	double x,y;
         @FXML
-        	public  void Loading(ActionEvent e) throws IOException {
+        	public  void Loading(MouseEvent e) throws IOException {
 
 		 root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();

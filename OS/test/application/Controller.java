@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import  application.SharedVariables;
 import static application.SharedVariables.decrementReadCount;
 import static application.SharedVariables.incrementReadCount;
+import static application.SharedVariables.incrementWriteCount;
 import static application.SharedVariables.returnReadCount;
 import static application.SharedVariables.signalReader;
 import static application.SharedVariables.waitReader;
@@ -168,12 +169,10 @@ public void clickItem(MouseEvent event) throws IOException
 {
     if (event.getClickCount() == 2) //Checking double click
     {
-                                        waitReader();
+        
             decrementReadCount();
-            if(returnReadCount() == 0)
-                signalWriter();
-             signalReader();
-            waitWriter();
+            incrementWriteCount();
+
             if(returnReadCount() >= 1){
                 		 root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
