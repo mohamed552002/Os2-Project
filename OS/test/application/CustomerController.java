@@ -1,9 +1,9 @@
 package application;
 
-import Entities.Client;
-import application.Controller;
 import static application.SharedVariables.decrementWriteCount;
-import java.awt.Color;
+import static application.SharedVariables.incrementReadCount;
+import static application.SharedVariables.incrementWriteCount;
+import static application.SharedVariables.returnWriteCount;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,7 +27,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -40,6 +39,7 @@ public class CustomerController implements Initializable{
 
         @FXML
 	public void close(ActionEvent e) throws IOException {
+            if(returnWriteCount() == 1)
             decrementWriteCount();
             Timeline timeline = new Timeline();
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -50,7 +50,7 @@ public class CustomerController implements Initializable{
             timeline.play();
 	}
                 @FXML
-        	public  void Loading(MouseEvent e) throws IOException {
+        	public  void Loading(ActionEvent e) throws IOException {
 
 		 root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -65,6 +65,7 @@ public class CustomerController implements Initializable{
 	private Parent root;
 	double x,y;
 	public void opencustomer(ActionEvent e) throws IOException {
+            incrementWriteCount();
             root = FXMLLoader.load(getClass().getResource("customer.fxml"));
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -83,10 +84,13 @@ public class CustomerController implements Initializable{
 	}
         @FXML 
         private void client(ActionEvent e) throws IOException{
+            decrementWriteCount();
+            incrementReadCount();
             root = FXMLLoader.load(getClass().getResource("viewClients.fxml"));
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             scene = new Scene(root);
              //move around
+             decrementWriteCount();
 			root.setOnMousePressed(evt->{
 				x = evt.getSceneX();
 				y = evt.getSceneY();
@@ -101,6 +105,7 @@ public class CustomerController implements Initializable{
             
         }
         public void openNewClient(ActionEvent e) throws IOException {
+            decrementWriteCount();
 		 root = FXMLLoader.load(getClass().getResource("newClient.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
@@ -118,6 +123,7 @@ public class CustomerController implements Initializable{
                 stage.show();
 		}
         public void openHome(ActionEvent e) throws IOException{
+            decrementWriteCount();
                 root = FXMLLoader.load(getClass().getResource("home.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);

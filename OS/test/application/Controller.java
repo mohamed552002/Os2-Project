@@ -6,6 +6,7 @@ import static application.SharedVariables.decrementReadCount;
 import static application.SharedVariables.incrementReadCount;
 import static application.SharedVariables.incrementWriteCount;
 import static application.SharedVariables.returnReadCount;
+import static application.SharedVariables.returnWriteCount;
 import static application.SharedVariables.signalReader;
 import static application.SharedVariables.waitReader;
 import static application.SharedVariables.signalWriter;
@@ -69,7 +70,8 @@ public class Controller implements Initializable {
     private TableColumn<Client, String> address;
    ObservableList<Client> dataList = FXCollections.observableArrayList();
     @FXML
-	public void close(ActionEvent e) {
+	public void close(ActionEvent e) throws IOException {
+            decrementReadCount();
             Timeline timeline = new Timeline();
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             KeyFrame key = new KeyFrame(Duration.millis(250),
@@ -90,9 +92,23 @@ public class Controller implements Initializable {
 		stage.setScene(scene);
 		stage.show();
 		}
+                            @FXML
+                    	public void Loading(MouseEvent e) throws IOException {
+
+		 root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
+		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+		}
         
 
-	public void openAllClients(ActionEvent e) throws IOException, InterruptedException {
+	public void openAllClients(MouseEvent e) throws IOException, InterruptedException {
+                        if(returnWriteCount() != 0){
+                    Loading(e);
+            }
+
+            else{
 		 root = FXMLLoader.load(getClass().getResource("viewClients.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
@@ -108,8 +124,9 @@ public class Controller implements Initializable {
 			});
                 stage.setScene(scene);
                 stage.show();
-		}
+		}}
         public void openNewClient(ActionEvent e) throws IOException {
+                                                        decrementReadCount();
 		 root = FXMLLoader.load(getClass().getResource("newClient.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
@@ -128,7 +145,7 @@ public class Controller implements Initializable {
                 
 		}
         public void openHome(ActionEvent e) throws IOException{
-            signalWriter();
+                                                        decrementReadCount();
                 root = FXMLLoader.load(getClass().getResource("home.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
@@ -169,11 +186,9 @@ public void clickItem(MouseEvent event) throws IOException
 {
     if (event.getClickCount() == 2) //Checking double click
     {
-        
-            decrementReadCount();
-            incrementWriteCount();
-
+                                            decrementReadCount();
             if(returnReadCount() >= 1){
+
                 		 root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
@@ -182,6 +197,7 @@ public void clickItem(MouseEvent event) throws IOException
             }
             else{
 
+            incrementWriteCount();
                 int clientId = tableview.getSelectionModel().getSelectedItem().getID();
                 String fullname = tableview.getSelectionModel().getSelectedItem().getFName()+ " "+ tableview.getSelectionModel().getSelectedItem().getLName();
                 String cardNum = tableview.getSelectionModel().getSelectedItem().getCardNum();

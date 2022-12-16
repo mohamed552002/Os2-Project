@@ -3,6 +3,8 @@ package application;
 
 import Entities.Client;
 import application.Controller;
+import static application.SharedVariables.incrementReadCount;
+import static application.SharedVariables.returnWriteCount;
 import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
@@ -72,8 +74,23 @@ public class addCustomerController implements Initializable{
                 stage.setScene(scene);
                 stage.show();
 	}
+                        @FXML
+        	public  void Loading(ActionEvent e) throws IOException {
+
+		 root = FXMLLoader.load(getClass().getResource("Loading.fxml"));
+		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+		}
         @FXML 
         private void client(ActionEvent e) throws IOException{
+                        if(returnWriteCount() != 0){
+                    Loading(e);
+            }
+
+            else{
+            incrementReadCount();
             root = FXMLLoader.load(getClass().getResource("viewClients.fxml"));
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -90,7 +107,7 @@ public class addCustomerController implements Initializable{
                 stage.setScene(scene);
                 stage.show();
             
-        }
+        }}
         public void openHome(ActionEvent e) throws IOException{
                 root = FXMLLoader.load(getClass().getResource("home.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();

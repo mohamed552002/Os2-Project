@@ -87,7 +87,7 @@ public class HomeController implements Initializable {
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
-		stage.showAndWait();
+		stage.show();
 		}
             @FXML 
         private void client(MouseEvent e) throws IOException, InterruptedException{
@@ -95,7 +95,7 @@ public class HomeController implements Initializable {
                     Loading(e);
             }
 
-
+            else{
             incrementReadCount();
             
             root = FXMLLoader.load(getClass().getResource("viewClients.fxml"));
@@ -113,7 +113,7 @@ public class HomeController implements Initializable {
 			});
                 stage.setScene(scene);
                 stage.show();
-
+        }
         }
 
     @Override
