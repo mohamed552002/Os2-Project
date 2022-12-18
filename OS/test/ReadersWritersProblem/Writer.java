@@ -1,41 +1,32 @@
 package ReadersWritersProblem;
-import static ReadersWritersProblem.ReadersWritersProblem.file;
 import static ReadersWritersProblem.ReadersWritersProblem.path;
 import static ReadersWritersProblem.ReadersWritersProblem.writeLock;
+import static ReadersWritersProblem.ReadersWritersProblem.in_mutex;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-class Writer implements Runnable { // Writing Process
-
+class Writer implements Runnable {
     @Override
-    public void run() {
+    public synchronized void run() {
         try {
-            writeLock.acquire(); //wait(rw_mutex)
-            
-            System.out.println("Thread "+Thread.currentThread().getName() + " is writing");
-            if(!file.exists()){
-                
+                in_mutex.acquire(); 
+                writeLock.acquire();   
+                System.out.println("Thread "+Thread.currentThread().getName() + " is writing");
                 try {
-                    file.createNewFile();
-                } catch(IOException e){
+                    try (FileOutputStream fout =
+                            new FileOutputStream(path, true)) {
+                        fout.write("Mohamed\r\n".getBytes());
+                    }
+                }catch (IOException e){
                     return;
                 }
-            }
-            
-            try {                
-                try (FileOutputStream fout =
-                        new FileOutputStream(path, true)) {
-                    fout.write("Mohamed\r\n".getBytes());
-                }
-            }catch (IOException e){
-                 return;
-            }
+                System.out.println("Thread "+Thread.currentThread().getName() + " has finished writing");
                 
-            System.out.println("Thread "+Thread.currentThread().getName() + " has finished writing");
-
-            writeLock.release();
-
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+                writeLock.release();
+                in_mutex.release(); 
+        }catch (InterruptedException ex){
+            Logger.getLogger(Writer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
